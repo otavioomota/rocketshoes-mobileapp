@@ -85,3 +85,17 @@ export const SubmitButtonText = styled.Text`
   font-weight: bold;
   color: #fafafa;
 `;
+
+export const EmptyCart = styled.View`
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+
+  margin: 30px;
+  padding: 30px;
+`;
+
+export const EmptyText = styled.Text`
+  font-size: 35px;
+  color: #9999;
+`;

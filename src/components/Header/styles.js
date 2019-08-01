@@ -7,11 +7,12 @@ export const Container = styled.View`
   align-items: center;
   padding: 10px 0;
 `;
+export const ButtonHome = styled.TouchableOpacity``;
 
 export const Logo = styled.Image`
   margin-left: 10px;
 `;
-export const Basket = styled.View`
+export const Basket = styled.TouchableOpacity`
   flex-direction: row;
   margin-right: 30px;
   height: 24px;

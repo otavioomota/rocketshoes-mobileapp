@@ -57,16 +57,13 @@ class Main extends Component {
         />
         <Title>{item.title}</Title>
         <Price>{item.priceFormatted}</Price>
-        <ButtonContainer>
+        <ButtonContainer onPress={() => this.handleAddProduct(item.id)}>
           <ItemCount>
             <Icon name="add-shopping-cart" color="#FFF" size={20} />
             <ItemCountText>{amount[item.id] || 0}</ItemCountText>
           </ItemCount>
 
-          <ButtonText onPress={() => this.handleAddProduct(item.id)}>
-            {" "}
-            ADICIONAR{" "}
-          </ButtonText>
+          <ButtonText> ADICIONAR </ButtonText>
         </ButtonContainer>
       </ProductContainer>
     );

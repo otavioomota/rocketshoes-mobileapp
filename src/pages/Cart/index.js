@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+
 import { FlatList } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Icon2 from "react-native-vector-icons/FontAwesome";
@@ -27,6 +28,8 @@ import {
   TotalPrice,
   SubmitButton,
   SubmitButtonText,
+  EmptyCart,
+  EmptyText,
 } from "./styles";
 
 class Cart extends Component {
@@ -90,18 +93,28 @@ class Cart extends Component {
       </ProductContainer>
     ));
 
+    const productContainer = (
+      <ProductsContainer>
+        {products}
+        <Total>
+          <TotalText>TOTAL</TotalText>
+          <TotalPrice>{total}</TotalPrice>
+        </Total>
+        <SubmitButton>
+          <SubmitButtonText>FINALIZAR PEDIDO</SubmitButtonText>
+        </SubmitButton>
+      </ProductsContainer>
+    );
+
+    const emptyCart = (
+      <EmptyCart>
+        <Icon name="remove-shopping-cart" size={50} color="#7159c1" />
+        <EmptyText>Carrinho vazio !</EmptyText>
+      </EmptyCart>
+    );
     return (
       <Container>
-        <ProductsContainer>
-          {products}
-          <Total>
-            <TotalText>TOTAL</TotalText>
-            <TotalPrice>{total}</TotalPrice>
-          </Total>
-          <SubmitButton>
-            <SubmitButtonText>FINALIZAR PEDIDO</SubmitButtonText>
-          </SubmitButton>
-        </ProductsContainer>
+        {products.length > 0 ? productContainer : emptyCart}
       </Container>
     );
   }
