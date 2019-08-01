@@ -16,7 +16,7 @@ const reducer = (state = [], action) => {
         }
       });
 
-    case "@cart/DELETE_SUCCESS":
+    case "@cart/DELETE":
       return procede(state, draft => {
         const productIndex = draft.findIndex(p => p.id === action.id);
 

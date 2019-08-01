@@ -32,16 +32,10 @@ import {
 class Cart extends Component {
   state = {};
 
-  handlerAdd = product => {
-    const { addToCart } = this.props;
-
-    addToCart(product);
-  };
-
   decrement = product => {
-    const { updateAmount } = this.props;
+    const { updateAmountRequest } = this.props;
 
-    updateAmount(product.id, product.amount - 1);
+    updateAmountRequest(product.id, product.amount - 1);
   };
 
   increment = product => {
@@ -51,9 +45,9 @@ class Cart extends Component {
   };
 
   handlerDelete = id => {
-    const { deleteFromCartRequest } = this.props;
+    const { deleteFromCart } = this.props;
 
-    deleteFromCartRequest(id);
+    deleteFromCart(id);
   };
 
   render() {

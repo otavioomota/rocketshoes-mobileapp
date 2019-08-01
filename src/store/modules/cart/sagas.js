@@ -1,64 +1,56 @@
 import { call, put, all, takeLatest, select } from "redux-saga/effects";
-import {
-  addToCartSuccess,
-  updateAmountSuccess,
-  deleteFromCartSuccess,
-} from "./actions";
-import {formatPrice } from '../../../util/formatPrice';
+import { Alert } from "react-native";
 
 import api from "../../../services/api";
+import { formatPrice } from "../../../util/formatPrice";
+import { addToCartSuccess, updateAmountSuccess } from "./actions";
 
 function* addToCart({ id }) {
   const productExists = yield select(state =>
     state.cart.find(p => p.id === id)
   );
 
-  const stoke = yield call(api.get, `/stock/${id}`);
-  const stokeAmount = stoke.data.amount;
+  const stock = yield call(api.get, `/stock/${id}`);
 
+  const stockAmount = stock.data.amount;
   const currentAmount = productExists ? productExists.amount : 0;
   const amount = currentAmount + 1;
 
-  if (amount > stokeAmount) {
-    console.tron.log("SEM ESTOQUE");
+  if (amount > stockAmount) {
+    Alert.alert("Quantidade solicitidade fora de estoque");
     return;
   }
-
   if (productExists) {
     yield put(updateAmountSuccess(id, amount));
   } else {
-    console.tron.log(id);
     const response = yield call(api.get, `/products/${id}`);
 
-    const newProduct = {
+    const product = {
       ...response.data,
-      amount: 1,
-      priceFormatted: formatPrice(response.data.price)
+      amount,
+      priceFormmated: formatPrice(response.data.price),
     };
-    console.tron.log(newProduct);
-    yield put(addToCartSuccess(response.data));
+    console.tron.log(product);
+    yield put(addToCartSuccess(product));
   }
 }
 
 function* updateAmount({ id, amount }) {
-  if (amount <= 0) return;
-
-  const stoke = yield call(api.get, `/stock/${id}`);
-  const stokeAmount = stoke.data.amount;
-
-  if (amount > stokeAmount) {
-    console.tron.log("SEM ESTOQUE");
+  if (amount <= 0) {
     return;
   }
+
+  const stock = yield call(api.get, `/stock/${id}`);
+  const stockAmount = stock.data.amount;
+
+  if (amount > stockAmount) {
+    Alert.alert("Quantidade solicitidade fora de estoque");
+    return;
+  }
+
   yield put(updateAmountSuccess(id, amount));
 }
-
-function* deleteProduct({ id }) {
-  yield put(deleteFromCartSuccess(id));
-}
-
 export default all([
   takeLatest("@cart/ADD_REQUEST", addToCart),
   takeLatest("@cart/UPDATE_AMOUNT_REQUEST", updateAmount),
-  takeLatest("@cart/DELETE_REQUEST", deleteProduct),
 ]);
