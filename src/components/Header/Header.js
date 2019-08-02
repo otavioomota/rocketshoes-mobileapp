@@ -1,13 +1,15 @@
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Container, Logo, Basket, ItemCount, ButtonHome } from "./styles";
 
 import logo from "../../assets/logo.png";
 
-const Header = ({ navigation, itemCount }) => {
+const Header = ({ navigation }) => {
+  const itemCount = useSelector(state => state.cart.length);
+
   return (
     <Container>
       <ButtonHome onPress={() => navigation.navigate("Main")}>
@@ -21,9 +23,4 @@ const Header = ({ navigation, itemCount }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    itemCount: state.cart.length,
-  };
-};
-export default connect(mapStateToProps)(Header);
+export default Header;
